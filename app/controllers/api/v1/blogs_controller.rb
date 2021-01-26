@@ -4,19 +4,45 @@ module Api
       protect_from_forgery with: :null_session
 
       def index
-        blog = Blog.all.order(created_at: :desc)
+        blogs = Blog.all.order(created_at: :desc)
+
+        render json: BlogSerializer.new(blogs, options).serializable_hash.to_json
       end
 
       def show
+        blog = Blog.find_by(slug: params[:slug])
+
+        render json: BlogSerializer.new(blog, options).serializable_hash.to_json
       end
 
       def create
+        blog = Blog.new(blog_params)
+
+        if blog.save
+          render json: BlogSerializer.new(blog).serializable_hash.to_json
+        else
+          render json: { error: blog.errors.messages }, status: 422
+        end
       end
 
       def update
+        blog = Blog.find_by(slug: params[:slug])
+
+        if blog.update(blog_params)
+          render json: BlogSerializer.new(blog, options).serializable_hash.to_json
+        else
+          render json: { error: blog.errors.messages }, status: 422
+        end
       end
 
       def destroy
+        blog = Blog.find_by(slug: params[:slug])
+
+        if blog.destroy
+          head :no_content
+        else
+          render json: { error: blog.errors.messages }, status: 422
+        end
       end
 
       private

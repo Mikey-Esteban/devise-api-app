@@ -4,9 +4,23 @@ module Api
       protect_from_forgery with: :null_session
 
       def create
+        comment = blog.comment.new(comment_params)
+
+        if comment.save
+          render json: CommentSerializer.new(comment).serializable_hash.to_json
+        else
+          render json: { error: comment.errors.messages }, status: 422
+        end
       end
 
       def destroy
+        comment = Comment.find(params[:id])
+
+        if comment.destroy
+          head :no_content
+        else
+          render json: { error: comment.errors.messages }, status: 422
+        end
       end
 
       private
