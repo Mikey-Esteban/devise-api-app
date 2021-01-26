@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :blog, param: :slug, except: [:new]
+      resources :blogs, param: :slug, except: [:new]
       resources :comments, only: [ :create, :destroy ]
     end
   end
