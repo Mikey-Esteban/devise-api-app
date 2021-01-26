@@ -1,3 +1,14 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  root 'pages#index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :blog, param: :slug, except: [:new]
+      resources :comments, only: [ :create, :destroy ]
+    end
+  end
+
+  # handle routing for React Router components without interfering with Rails Routes
+  get '*path', to: 'pages#index', via: :all
 end

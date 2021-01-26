@@ -1,4 +1,6 @@
 class BlogSerializer
   include JSONAPI::Serializer
-  attributes :title, :image_url, :body
+  attributes :title, :image_url, :body, :slug
+
+  has_many :comments
 end

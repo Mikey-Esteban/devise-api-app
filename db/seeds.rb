@@ -43,3 +43,18 @@ blogs = Blog.create([
     body: grab_blog
   }
 ])
+
+comments = Comment.create([
+  {
+    body: grab_sentence,
+    blog: blogs.first
+  },
+  {
+    body: grab_sentence,
+    blog: blogs.first
+  },
+  {
+    body: grab_sentence,
+    blog: blogs.first
+  }
+])
