@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  devise_for :users
   root 'pages#index'
 
   namespace :api do
@@ -9,6 +8,19 @@ Rails.application.routes.draw do
       resources :comments, only: [ :create, :destroy ]
     end
   end
+
+  devise_for :users,
+    defaults: { format: :json },
+    path: '',
+    path_names: {
+      sign_in: 'login',
+      sign_out: 'logout',
+      registration: 'signup'
+    },
+    controllers: {
+      sessions: 'sessions',
+      registrations: 'registrations'
+    }
 
   # handle routing for React Router components without interfering with Rails Routes
   get '*path', to: 'pages#index', via: :all
