@@ -6,9 +6,20 @@ const Blogs = () => {
   const [ blogs, setBlogs ] = useState([])
 
   useEffect( () => {
-    // api call
-    axios.get('/api/v1/blogs')
-      .then( resp => setBlogs(resp.data.data) )
+    // axios headers for authorization
+    const options = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Authorization': localStorage.getItem('token')
+      }
+    }
+    
+    axios.get('/api/v1/blogs', options)
+      .then( resp => {
+        debugger
+        setBlogs(resp.data.data)
+      })
       .catch( resp => console.log(resp) )
   }, [blogs.length])
 

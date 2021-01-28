@@ -35,7 +35,6 @@ const Home = () => {
   const [ redirect, setRedirect ] = useState(false)
 
   const handleChange = e => {
-    console.log('name:', e.target.name, 'value:', e.target.value);
     setUser({...user, [e.target.name]:e.target.value})
   }
 
@@ -45,7 +44,8 @@ const Home = () => {
     // axios post log in request
     axios.post('/login', {user: user})
       .then( resp => {
-        debugger
+        console.log(resp.headers.authorization)
+        localStorage.setItem('token', resp.headers.authorization)
         setRedirect(true)
       })
       .catch( resp => console.log(resp) )
