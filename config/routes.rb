@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :blogs, param: :slug, except: [:new]
       resources :comments, only: [ :create, :destroy ]
+      get 'private/test', to: 'private#test'   # testing devise jwt authentication
+
     end
   end
 
